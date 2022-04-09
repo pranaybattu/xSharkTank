@@ -28,5 +28,17 @@ const OffersSchema = mongoose.Schema({
     },
     { timestamp: true }
 );
+// OffersSchema.methods.toBackbone = function () {
+//     var obj = this.toObject();
+//     obj.id = obj._id;
+//     delete obj._id;
+//     return obj;
+OffersSchema.virtual('id').get(function(){
+    return this._id;
+});
 
+// Ensure virtual fields are serialised.
+OffersSchema.set('toJSON', {
+    virtuals: true
+});
 module.exports = mongoose.model("Offers", OffersSchema);

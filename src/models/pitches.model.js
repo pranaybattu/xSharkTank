@@ -34,7 +34,20 @@ const pitchesSchema = new mongoose.Schema({
         }]
     },
     { timestamp: true }
-
 );
+// pitchesSchema.methods.toBackbone = function () {
+//     var obj = this.toObject();
+//     obj.id = obj._id;
+//     delete obj._id;
+//     return obj;
+// }
+pitchesSchema.virtual('id').get(function(){
+    return this._id;
+});
+
+// Ensure virtual fields are serialised.
+pitchesSchema.set('toJSON', {
+    virtuals: true
+});
 
 module.exports = mongoose.model("pitches", pitchesSchema);

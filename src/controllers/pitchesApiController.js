@@ -81,8 +81,8 @@ exports.postOfferToPitch = async (req, res) => {
 exports.getAllPitches = async (req,res) => {
     console.log("request made to api 3");
     Pitches.find({})
-            .populate('offers', '_id investor amount equity comment')
-            .select('_id entrepreneur pitchTitle pitchIdea askAmount equity offers')
+            .populate('offers','id investor amount equity comment')
+            .select('id entrepreneur pitchTitle pitchIdea askAmount equity offers')
             .sort({ date: -1 })
             .exec((err, data) => {
                 if (err) {
@@ -102,8 +102,8 @@ exports.getRequiredPitch = async (req, res) => {
     const isPitchPresent = Pitches.exists({_id: id});
     console.log("request made to api 4");
     await Pitches.findById(id)
-                .populate('offers', '_id investor amount equity comment')
-                .select('_id entrepreneur pitchTitle pitchIdea askAmount equity offers')
+                .populate('offers', 'id investor amount equity comment')
+                .select('id entrepreneur pitchTitle pitchIdea askAmount equity offers')
                 .exec((err, data) => {
                     if(err) {
                         console.log(err);
