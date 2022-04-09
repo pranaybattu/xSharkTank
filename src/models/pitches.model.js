@@ -29,8 +29,7 @@ const pitchesSchema = new mongoose.Schema({
         },
         offers: [{ 
             type: ObjectId, 
-            ref: 'Offers', 
-            default: [{}]
+            ref: 'Offers'
         }]
     },
     { timestamp: true }

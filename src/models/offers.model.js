@@ -21,6 +21,10 @@ const OffersSchema = mongoose.Schema({
             type: String,
             required: true
         },
+        date: {
+            type: String,
+            default: Date.now
+        },
         pitch: {
             type: ObjectId,
             ref: 'Pitches'

@@ -80,14 +80,13 @@ exports.postOfferToPitch = async (req, res) => {
 //3
 exports.getAllPitches = async (req,res) => {
     console.log("request made to api 3");
-    Pitches.find({})
+    await Pitches.find({})
             .populate('offers','id investor amount equity comment')
             .select('id entrepreneur pitchTitle pitchIdea askAmount equity offers')
             .sort({ date: -1 })
             .exec((err, data) => {
                 if (err) {
                     console.log(err);
-
                     res.status(500).send();
                 }
                 // res.json(data);
