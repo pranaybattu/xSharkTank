@@ -81,7 +81,7 @@ exports.postOfferToPitch = async (req, res) => {
 exports.getAllPitches = async (req,res) => {
     console.log("request made to api 3");
     await Pitches.find({}, {_id: 0})
-            .populate('offers','id investor amount equity comment')
+            .populate('offers','-_id id investor amount equity comment')
             .select('id entrepreneur pitchTitle pitchIdea askAmount equity offers')
             .sort({ date: -1 })
             .exec((err, data) => {
