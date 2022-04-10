@@ -4,7 +4,10 @@ const { ObjectId } = mongoose.Schema.Types;
 var Float = require('mongoose-float').loadType(mongoose);
 
 const OffersSchema = mongoose.Schema({
-        
+        id:{
+            type: String,
+            require: false
+        },
         investor: {
             type: String,
             required: true
@@ -37,12 +40,16 @@ const OffersSchema = mongoose.Schema({
 //     obj.id = obj._id;
 //     delete obj._id;
 //     return obj;
-OffersSchema.virtual('id').get(function(){
-    return this._id;
-});
+// OffersSchema.virtual('id').get(function(){
+//     return this._id;
+// });
 
-// Ensure virtual fields are serialised.
-OffersSchema.set('toJSON', {
-    virtuals: true
-});
+// // Ensure virtual fields are serialised.
+// OffersSchema.set('toJSON', {
+//     virtuals: true
+// });
+OffersSchema.pre('save', function (next) {
+    this.id = this._id;
+    next()
+})
 module.exports = mongoose.model("Offers", OffersSchema);

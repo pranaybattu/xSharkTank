@@ -80,7 +80,7 @@ exports.postOfferToPitch = async (req, res) => {
 //3
 exports.getAllPitches = async (req,res) => {
     console.log("request made to api 3");
-    await Pitches.find({})
+    await Pitches.find({}, {_id: 0})
             .populate('offers','id investor amount equity comment')
             .select('id entrepreneur pitchTitle pitchIdea askAmount equity offers')
             .sort({ date: -1 })
@@ -100,8 +100,8 @@ exports.getRequiredPitch = async (req, res) => {
     console.log(id);
     const isPitchPresent = Pitches.exists({_id: id});
     console.log("request made to api 4");
-    await Pitches.findById(id)
-                .populate('offers', 'id investor amount equity comment')
+    await Pitches.findById(id,{_id: 0})
+                .populate('offers', '-_id id investor amount equity comment')
                 .select('id entrepreneur pitchTitle pitchIdea askAmount equity offers')
                 .exec((err, data) => {
                     if(err) {
@@ -113,16 +113,16 @@ exports.getRequiredPitch = async (req, res) => {
                         res.status(404).send({err: "id not present"});
                     }
                     else {
-                        const modifiedData = {
-                            id: data._id,
-                            entrepreneur: data.entrepreneur,
-                            pitchTitle: data.pitchTitle,
-                            pitchIdea: data.pitchIdea,
-                            askAmount: data.askAmount,
-                            equity: data.equity,
-                            offers: data.offers
-                        }
-                        res.status(200).send(modifiedData);
+                        // const modifiedData = {
+                        //     id: data._id,
+                        //     entrepreneur: data.entrepreneur,
+                        //     pitchTitle: data.pitchTitle,
+                        //     pitchIdea: data.pitchIdea,
+                        //     askAmount: data.askAmount,
+                        //     equity: data.equity,
+                        //     offers: data.offers
+                        // }
+                        res.status(200).send(data);
                     }
                 })
 };
